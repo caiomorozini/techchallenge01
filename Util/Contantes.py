@@ -1,5 +1,7 @@
 from enum import Enum
 
+base_url = "http://vitibrasil.cnpuv.embrapa.br/index.php"
+
 class Opcoes(str, Enum):
     Producao = "opt_02"
     Processamento = "opt_03"
@@ -24,4 +26,4 @@ class SubOpcoesExport(str, Enum):
     VinhosMesa = "VinhosMesa"
     Espumantes = "Espumantes"
     UvasFrescas = "UvasFrescas"
-    SucoUva = "SucoUva"   
+    SucoUva = "SucoUva"

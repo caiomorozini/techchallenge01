@@ -1,37 +1,48 @@
 from fastapi import FastAPI
-import requests
-from Classes.Enums import Opcoes
-from Classes.Enums import SubOpcoesProc
-from Classes.Enums import SubOpcoesImport
-from Classes.Enums import SubOpcoesExport
-import Util.WebScraping as WebScraping
+from fastapi.responses import RedirectResponse
+from Util.Contantes import *
+from Util.RestAPI import *
 
-api_url = "http://vitibrasil.cnpuv.embrapa.br/index.php"
-app = FastAPI()
+app = FastAPI(title="Tech Challenge",)
 
-##TODO LIST
-##FAZER O SWAGGER
-##VERIFICAR SE EXISTE UMA FORMA MELHOR DE RECEBER A DESCRIÇÃO PELO LINK E UTILIZAR O VALOR
-##DATACLASSES PYDANTIC RENDER
-##GRAVAR EM UM HTML PARA CONSULTA CASO ESTEJA OFFLINE
+@app.get("/", include_in_schema=False)
+async def docs_redirect():
+    """
+    Redireciona para a documentação Swagger.
+    """
+    return RedirectResponse(url="/docs")
 
+@app.get("/Producao", tags=["Embrapa"])
+async def getProducao(ano: int | None = None):
+    """
+    Obtém dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
 
-@app.get("/Producao")
-async def getProducao(ano:int | None = None):
+    Parâmetros de Query:
+    - ano (opcional): Filtra os dados pelo ano fornecido.
+
+    Retorno:
+    - Dados da produção para o ano especificado ou os dados do ano mais recente se não for fornecido.
+    """
     parametros = ""
     if ano:
         parametros = f"ano={ano}&"
-    url = api_url + f"?{parametros}opcao={Opcoes.Producao.value}"
+    url = base_url + f"?{parametros}opcao={Opcoes.Producao.value}"
 
-    #Precisa colocar o error handling
-    page = requests.get(url)
-
-    produtos = WebScraping.ExtrairDados(page)
-
+    produtos = ExecutarGet(url, Opcoes.Producao)
     return(produtos)
 
-@app.get("/Processamento")
-async def getProcessamento(ano:int | None = None, subopcao:SubOpcoesProc | None = None):
+@app.get("/Processamento", tags=["Embrapa"])
+async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | None = None):
+    """
+    Obtém dados de quantidade de uvas processadas no Rio Grande do Sul.
+
+    Parâmetros de Query:
+    - ano (opcional): Filtra os dados pelo ano fornecido.
+    - subopcao (opcional): Filtra os dados pela subopção de processamento fornecida.
+
+    Retorno:
+    - Dados do processamento para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    """
     parametros = ""
     if ano:
         parametros = f"ano={ano}&"
@@ -40,31 +51,44 @@ async def getProcessamento(ano:int | None = None, subopcao:SubOpcoesProc | None 
         if subopcaovalor:
             parametros = f"{parametros}subopcao={subopcaovalor}&"
 
-    url = api_url + f"?{parametros}opcao={Opcoes.Processamento.value}"
+    url = base_url + f"?{parametros}opcao={Opcoes.Processamento.value}"
 
-    #Precisa colocar o error handling
-    page = requests.get(url)
-    
-    produtos = WebScraping.ExtrairDados(page)
+    produtos = ExecutarGet(url, Opcoes.Processamento)
 
     return(produtos)
 
-@app.get("/Comercializacao")
-async def getComercializacao(ano:int | None = None):
+@app.get("/Comercializacao", tags=["Embrapa"])
+async def getComercializacao(ano: int | None = None):
+    """
+    Obtém dados de comercialização de vinhos e derivados no Rio Grande do Sul.
+
+    Parâmetros de Query:
+    - ano (opcional): Filtra os dados pelo ano fornecido.
+
+    Retorno:
+    - Dados da comercialização para o ano especificado ou os dados do ano mais recente se não for fornecido.
+    """
     parametros = ""
     if ano:
         parametros = f"ano={ano}&"
-    url = api_url + f"?{parametros}opcao={Opcoes.Comercializacao.value}"
+    url = base_url + f"?{parametros}opcao={Opcoes.Comercializacao.value}"
 
-    #Precisa colocar o error handling
-    page = requests.get(url)
-    
-    produtos = WebScraping.ExtrairDados(page)
+    produtos = ExecutarGet(url, Opcoes.Comercializacao)
 
     return(produtos)
 
-@app.get("/Importacao")
-async def getImportacao(ano:int | None = None, subopcao:SubOpcoesImport | None = None):
+@app.get("/Importacao", tags=["Embrapa"])
+async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None = None):
+    """
+    Obtém dados de importação de derivados de uva.
+
+    Parâmetros de Query:
+    - ano (opcional): Filtra os dados pelo ano fornecido.
+    - subopcao (opcional): Filtra os dados pela subopção de importação fornecida.
+
+    Retorno:
+    - Dados da importação para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    """
     parametros = ""
     if ano:
         parametros = f"ano={ano}&"
@@ -73,17 +97,24 @@ async def getImportacao(ano:int | None = None, subopcao:SubOpcoesImport | None =
         if subopcaovalor:
             parametros = f"{parametros}subopcao={subopcaovalor}&"
 
-    url = api_url + f"?{parametros}opcao={Opcoes.Importacao.value}"
+    url = base_url + f"?{parametros}opcao={Opcoes.Importacao.value}"
 
-    #Precisa colocar o error handling
-    page = requests.get(url)
-    
-    produtos = WebScraping.ExtrairDadosImport(page)
+    produtos = ExecutarGet(url, Opcoes.Importacao)
 
     return(produtos)
 
-@app.get("/Exportacao")
-async def getExportacao(ano:int | None = None, subopcao:SubOpcoesExport | None = None):
+@app.get("/Exportacao", tags=["Embrapa"])
+async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None = None):
+    """
+    Obtém dados de exportação de derivados de uva.
+
+    Parâmetros de Query:
+    - ano (opcional): Filtra os dados pelo ano fornecido.
+    - subopcao (opcional): Filtra os dados pela subopção de exportação fornecida.
+
+    Retorno:
+    - Dados da exportação para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    """
     parametros = ""
     if ano:
         parametros = f"ano={ano}&"
@@ -92,49 +123,8 @@ async def getExportacao(ano:int | None = None, subopcao:SubOpcoesExport | None =
         if subopcaovalor:
             parametros = f"{parametros}subopcao={subopcaovalor}&"
 
-    url = api_url + f"?{parametros}opcao={Opcoes.Exportacao.value}"
+    url = base_url + f"?{parametros}opcao={Opcoes.Exportacao.value}"
 
-    #Precisa colocar o error handling
-    page = requests.get(url)
-    
-    produtos = WebScraping.ExtrairDadosImport(page)
+    produtos = ExecutarGet(url, Opcoes.Exportacao)
 
     return(produtos)
-
-def ConsultarSubOpcaoProcessamento(subopcao):
-    if subopcao is SubOpcoesProc.Viniferas:
-        return("subopt_01")
-    elif subopcao is SubOpcoesProc.AmericanasHibridas:
-        return("subopt_02")
-    elif subopcao is SubOpcoesProc.UvasMesa:
-        return("subopt_03")
-    elif subopcao is SubOpcoesProc.SemClassificacao:
-        return("subopt_04")
-    else:
-        return("")
-    
-def ConsultarSubOpcaoImportacao(subopcao):
-    if subopcao is SubOpcoesImport.VinhosMesa:
-        return("subopt_01")
-    elif subopcao is SubOpcoesImport.Espumantes:
-        return("subopt_02")
-    elif subopcao is SubOpcoesImport.UvasFrescas:
-        return("subopt_03")
-    elif subopcao is SubOpcoesImport.UvasPassas:
-        return("subopt_04")
-    elif subopcao is SubOpcoesImport.SucoUva:
-        return("subopt_05")
-    else:
-        return("")
-    
-def ConsultarSubOpcaoExportacao(subopcao):
-    if subopcao is SubOpcoesExport.VinhosMesa:
-        return("subopt_01")
-    elif subopcao is SubOpcoesExport.Espumantes:
-        return("subopt_02")
-    elif subopcao is SubOpcoesExport.UvasFrescas:
-        return("subopt_03")
-    elif subopcao is SubOpcoesExport.SucoUva:
-        return("subopt_04")
-    else:
-        return("")
