@@ -4,5 +4,5 @@ class Importacao(BaseModel):
     ano: int
     subopcao: str
     pais: str
-    quantidade = float
+    quantidade: float
     valor: float

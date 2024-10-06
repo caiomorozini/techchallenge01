@@ -5,4 +5,4 @@ class Processamento(BaseModel):
     subopcao: str
     categoria: str
     produto: str
-    quantidade = float
+    quantidade: float

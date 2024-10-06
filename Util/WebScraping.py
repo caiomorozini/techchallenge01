@@ -1,5 +1,9 @@
 from Model import *
-from Model import Producao, Processamento, Comercializacao, Importacao, Exportacao
+from Model.Comercializacao import Comercializacao
+from Model.Exportacao import Exportacao
+from Model.Importacao import Importacao
+from Model.Processamento import Processamento
+from Model.Producao import Producao
 from Util.Contantes import *
 from bs4 import BeautifulSoup as bs
 import re
@@ -21,7 +25,7 @@ def ExtrairDados(page, opcao:Opcoes):
     if opcao is Opcoes.Producao or opcao is Opcoes.Processamento or opcao is Opcoes.Comercializacao:
         produtos = ConsultarTabelaProdutos(soup, ano, subopcao, opcao)
     elif opcao is Opcoes.Importacao or opcao is Opcoes.Exportacao:
-        produtos = ConsultarTabelaPaises(soup, ano, opcao)
+        produtos = ConsultarTabelaPaises(soup, ano, subopcao, opcao)
 
     return produtos
 
@@ -88,14 +92,14 @@ def ConsultarTabelaProdutos(soup, ano, subopcao, opcao):
                 quantidade = int(row[1].contents[0].strip().replace(".", ""))
 
         if opcao is Opcoes.Producao:
-            produtos.append(Producao(ano, subopcao, item, subitem, quantidade))
+            produtos.append(Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
         elif opcao is Opcoes.Processamento:            
-            produtos.append(Processamento(ano, subopcao, item, subitem, quantidade))
+            produtos.append(Processamento(ano=ano, subopcao=subopcao, categoria=item, produto=subitem, quantidade=quantidade))
         elif opcao is Opcoes.Comercializacao:                     
-            produtos.append(Comercializacao(ano, subopcao, item, subitem, quantidade))
+            produtos.append(Comercializacao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
     return produtos
 
-def ConsultarTabelaPaises(soup, ano, opcao):
+def ConsultarTabelaPaises(soup, ano, subopcao, opcao):
     produtos = []
     table = soup.find("table", class_="tb_dados")
 
@@ -115,7 +119,7 @@ def ConsultarTabelaPaises(soup, ano, opcao):
             valor = int(row[2].contents[0].strip().replace(".", ""))
 
         if opcao is Opcoes.Importacao:
-            produtos.append(Importacao(ano, pais, quantidade, valor))
+            produtos.append(Importacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
         elif opcao is Opcoes.Exportacao:            
-            produtos.append(Exportacao(ano, pais, quantidade, valor))
+            produtos.append(Exportacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
     return produtos

@@ -4,4 +4,4 @@ class Comercializacao(BaseModel):
     ano: int
     categoria: str
     produto: str
-    quantidade = float
+    quantidade: float
