@@ -10,20 +10,20 @@ class Opcoes(str, Enum):
     Exportacao = "opt_06"
 
 class SubOpcoesProc(str, Enum):
-    Viniferas = "Viniferas"
-    AmericanasHibridas = "AmericanasHibridas"
-    UvasMesa = "UvasMesa"
-    SemClassificacao = "SemClassificacao"
+    Viniferas = "Viníferas"
+    AmericanasHibridas = "Americanas e híbridas"
+    UvasMesa = "Uvas de mesa"
+    SemClassificacao = "Sem classificação"
 
 class SubOpcoesImport(str, Enum):
-    VinhosMesa = "VinhosMesa"
+    VinhosMesa = "Vinhos de mesa"
     Espumantes = "Espumantes"
-    UvasFrescas = "UvasFrescas"
-    UvasPassas = "UvasPassas"
-    SucoUva = "SucoUva"
+    UvasFrescas = "Uvas frescas"
+    UvasPassas = "Uvas passas"
+    SucoUva = "Suco de uva"
 
 class SubOpcoesExport(str, Enum):
-    VinhosMesa = "VinhosMesa"
+    VinhosMesa = "Vinhos de mesa"
     Espumantes = "Espumantes"
-    UvasFrescas = "UvasFrescas"
-    SucoUva = "SucoUva"
+    UvasFrescas = "Uvas frescas"
+    SucoUva = "Suco de uva"

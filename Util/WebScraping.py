@@ -1,12 +1,8 @@
-from Model import *
-from Model.Comercializacao import Comercializacao
-from Model.Exportacao import Exportacao
-from Model.Importacao import Importacao
-from Model.Processamento import Processamento
-from Model.Producao import Producao
 from Util.Contantes import *
 from bs4 import BeautifulSoup as bs
 import re
+from sql import crud, models
+
 
 def ExtrairDados(page, opcao:Opcoes):
     produtos = []
@@ -92,11 +88,11 @@ def ConsultarTabelaProdutos(soup, ano, subopcao, opcao):
                 quantidade = int(row[1].contents[0].strip().replace(".", ""))
 
         if opcao is Opcoes.Producao:
-            produtos.append(Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
+            produtos.append(models.Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
         elif opcao is Opcoes.Processamento:            
-            produtos.append(Processamento(ano=ano, subopcao=subopcao, categoria=item, produto=subitem, quantidade=quantidade))
+            produtos.append(models.Processamento(ano=ano, subopcao=subopcao, categoria=item, produto=subitem, quantidade=quantidade))
         elif opcao is Opcoes.Comercializacao:                     
-            produtos.append(Comercializacao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
+            produtos.append(models.Comercializacao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
     return produtos
 
 def ConsultarTabelaPaises(soup, ano, subopcao, opcao):
@@ -119,7 +115,7 @@ def ConsultarTabelaPaises(soup, ano, subopcao, opcao):
             valor = int(row[2].contents[0].strip().replace(".", ""))
 
         if opcao is Opcoes.Importacao:
-            produtos.append(Importacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
+            produtos.append(models.Importacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
         elif opcao is Opcoes.Exportacao:            
-            produtos.append(Exportacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
+            produtos.append(models.Exportacao(ano=ano, subopcao=subopcao, pais=pais, quantidade=quantidade, valor=valor))
     return produtos
