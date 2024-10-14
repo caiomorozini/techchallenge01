@@ -1,13 +1,5 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Float
-
-# Nova string de conexão
-connection_string = (
-    'mssql+pyodbc://azuredbbase:TechChallenge@321@tcp:techchallenge.database.windows.net,1433/SQL_FIAP'
-    '?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=no&Connection+Timeout=30'
-)
-
-# Criar o engine do SQLAlchemy
-engine = create_engine(connection_string)
+from sqlalchemy import MetaData, Table, Column, Integer, String, Float
+from database import engine
 
 # Definir metadados
 metadata = MetaData()
