@@ -8,6 +8,10 @@ from sql import crud
 def ExecutarGet(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Session):
     try:
         page = requests.get(url)
+        try:
+            produtos = WebScraping.ExtrairDados(page, opcoes)  
+        except Exception as e:
+            raise HTTPException(500, f"Erro ao extrair dados da página, {e}")
     except:
         try:
             if opcoes.value == Opcoes.Producao:
@@ -22,12 +26,6 @@ def ExecutarGet(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Sess
                 produtos = crud.get_exportacao(db, ano, subopcao)
         except Exception as e:
             raise HTTPException(500, "Ocorreu um erro ao tentar efetuar a conexão com o site http://vitibrasil.cnpuv.embrapa.br, tente novamente em alguns minutos")
-   
-    try:
-        produtos = WebScraping.ExtrairDados(page, opcoes)  
-    except Exception as e:
-          raise HTTPException(500, f"Erro ao extrair dados da página, {e}")
-
     try:
         if opcoes.value == Opcoes.Producao:
             produto_aux = crud.get_producao(db, ano)
@@ -43,9 +41,7 @@ def ExecutarGet(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Sess
         elif opcoes.value == Opcoes.Exportacao:
             produtos = crud.get_exportacao(db, ano, subopcao)
     except Exception as e:
-        raise HTTPException(500, "Ocorreu um erro ao tentar gravar o histórico da consulta")
-
-
+        raise HTTPException(500, f"Ocorreu um erro ao tentar gravar o histórico da consulta, {e}")
 
     return(produtos)
 

@@ -41,7 +41,7 @@ async def getProducao(ano: int | None = None, db: Session = Depends(get_db)):
         parametros = f"ano={ano}&"
     url = base_url + f"?{parametros}opcao={Opcoes.Producao.value}"
 
-    produtos = ExecutarGet(url, Opcoes.Producao, db)
+    produtos = ExecutarGet(url, ano, "", Opcoes.Producao, db)
     return(produtos)
 
 @app.get("/Processamento", tags=["Embrapa"])
@@ -66,7 +66,7 @@ async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | Non
 
     url = base_url + f"?{parametros}opcao={Opcoes.Processamento.value}"
 
-    produtos = ExecutarGet(url, Opcoes.Processamento, db)
+    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Processamento, db)
 
     return(produtos)
 
@@ -86,7 +86,7 @@ async def getComercializacao(ano: int | None = None, db: Session = Depends(get_d
         parametros = f"ano={ano}&"
     url = base_url + f"?{parametros}opcao={Opcoes.Comercializacao.value}"
 
-    produtos = ExecutarGet(url, Opcoes.Comercializacao, db)
+    produtos = ExecutarGet(url, ano, "", Opcoes.Comercializacao, db)
 
     return(produtos)
 
@@ -112,7 +112,7 @@ async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None
 
     url = base_url + f"?{parametros}opcao={Opcoes.Importacao.value}"
 
-    produtos = ExecutarGet(url, Opcoes.Importacao, db)
+    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Importacao, db)
 
     return(produtos)
 
@@ -138,6 +138,6 @@ async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None
 
     url = base_url + f"?{parametros}opcao={Opcoes.Exportacao.value}"
 
-    produtos = ExecutarGet(url, Opcoes.Exportacao, db)
+    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Exportacao, db)
 
     return(produtos)
