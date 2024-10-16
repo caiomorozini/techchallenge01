@@ -2,20 +2,20 @@ from pydantic import BaseModel
 
 class Producao(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True
     
 class Processamento(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Comercializacao(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Importacao(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Exportacao(BaseModel):
     class Config:
-        orm_mode = True
+        from_attributes = True

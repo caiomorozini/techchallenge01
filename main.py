@@ -61,8 +61,11 @@ async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | Non
         parametros = f"ano={ano}&"
     if subopcao:
         subopcaovalor = ConsultarSubOpcaoProcessamento(subopcao)
-        if subopcaovalor:
-            parametros = f"{parametros}subopcao={subopcaovalor}&"
+    else:
+        subopcaovalor = "subopt_01"
+
+    if subopcaovalor:
+        parametros = f"{parametros}subopcao={subopcaovalor}&"
 
     url = base_url + f"?{parametros}opcao={Opcoes.Processamento.value}"
 
@@ -107,8 +110,11 @@ async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None
         parametros = f"ano={ano}&"
     if subopcao:
         subopcaovalor = ConsultarSubOpcaoImportacao(subopcao)
-        if subopcaovalor:
-            parametros = f"{parametros}subopcao={subopcaovalor}&"
+    else:
+        subopcaovalor = "subopt_01"
+
+    if subopcaovalor:
+        parametros = f"{parametros}subopcao={subopcaovalor}&"
 
     url = base_url + f"?{parametros}opcao={Opcoes.Importacao.value}"
 
@@ -133,8 +139,11 @@ async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None
         parametros = f"ano={ano}&"
     if subopcao:
         subopcaovalor = ConsultarSubOpcaoExportacao(subopcao)
-        if subopcaovalor:
-            parametros = f"{parametros}subopcao={subopcaovalor}&"
+    else:
+        subopcaovalor = "subopt_01"
+        
+    if subopcaovalor:
+        parametros = f"{parametros}subopcao={subopcaovalor}&"
 
     url = base_url + f"?{parametros}opcao={Opcoes.Exportacao.value}"
 

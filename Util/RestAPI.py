@@ -6,6 +6,7 @@ import Util.WebScraping as WebScraping
 from sql import crud
 
 def ExecutarGet(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Session):
+    consulta_html = True
     try:
         page = requests.get(url)
         try:
@@ -13,35 +14,35 @@ def ExecutarGet(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Sess
         except Exception as e:
             raise HTTPException(500, f"Erro ao extrair dados da página, {e}")
     except:
+        consulta_html = False
         try:
             if opcoes.value == Opcoes.Producao:
-                produtos = crud.get_producao(db, ano)
+                produtos = crud.get_dados_producao(db, ano)
             elif opcoes.value == Opcoes.Processamento:
-                produtos = crud.get_processamento(db, ano, subopcao)
+                produtos = crud.get_dados_processamento(db, ano, subopcao)
             elif opcoes.value == Opcoes.Comercializacao:
-                produtos = crud.get_comercializacao(db, ano)
+                produtos = crud.get_dados_comercializacao(db, ano)
             elif opcoes.value == Opcoes.Importacao:
-                produtos = crud.get_importacao(db, ano, subopcao)
+                produtos = crud.get_dados_importacao(db, ano, subopcao)
             elif opcoes.value == Opcoes.Exportacao:
-                produtos = crud.get_exportacao(db, ano, subopcao)
+                produtos = crud.get_dados_exportacao(db, ano, subopcao)
         except Exception as e:
-            raise HTTPException(500, "Ocorreu um erro ao tentar efetuar a conexão com o site http://vitibrasil.cnpuv.embrapa.br, tente novamente em alguns minutos")
-    try:
-        if opcoes.value == Opcoes.Producao:
-            produto_aux = crud.get_producao(db, ano)
-            if not produto_aux: 
-                for produto in produtos:
-                    crud.create_producao(db, produto)
-        elif opcoes.value == Opcoes.Processamento:
-            produtos = crud.get_processamento(db, ano, subopcao)
-        elif opcoes.value == Opcoes.Comercializacao:
-            produtos = crud.get_comercializacao(db, ano)
-        elif opcoes.value == Opcoes.Importacao:
-            produtos = crud.get_importacao(db, ano, subopcao)
-        elif opcoes.value == Opcoes.Exportacao:
-            produtos = crud.get_exportacao(db, ano, subopcao)
-    except Exception as e:
-        raise HTTPException(500, f"Ocorreu um erro ao tentar gravar o histórico da consulta, {e}")
+            raise HTTPException(500, "Ocorreu um erro ao efetuar a conexão com o site http://vitibrasil.cnpuv.embrapa.br, tente novamente em alguns minutos")
+        
+    if consulta_html:
+        try:
+            if opcoes.value == Opcoes.Producao:
+                crud.insert_dados_producao(db, produtos)
+            elif opcoes.value == Opcoes.Processamento:
+                crud.insert_dados_processamento(db, produtos)
+            elif opcoes.value == Opcoes.Comercializacao:
+                crud.insert_dados_comercializacao(db, produtos)
+            elif opcoes.value == Opcoes.Importacao:
+                crud.insert_dados_importacao(db, produtos)
+            elif opcoes.value == Opcoes.Exportacao:
+                crud.insert_dados_exportacao(db, produtos)
+        except Exception as e:
+            raise HTTPException(500, f"Ocorreu um erro ao gravar o histórico da consulta, {e}")
 
     return(produtos)
 
