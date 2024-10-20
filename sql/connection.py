@@ -1,4 +1,4 @@
-from sqlalchemy import MetaData, Table, Column, Integer, String, Float
+from sqlalchemy import MetaData, Table, Column, Integer, String, Float, DateTime
 from database import engine
 
 # Definir metadados
@@ -41,6 +41,14 @@ exportacao = Table('Exportacao', metadata,
     Column('pais', String(50)),
     Column('quantidade', Float),
     Column('valor', Float)
+)
+
+users = Table('users', metadata,
+    Column('id', Integer),
+    Column('username', String(50)),
+    Column('password', String(150)),
+    Column('email', String(150)),
+    Column('created_at', DateTime)
 )
 
 # Criar as tabelas no banco de dados

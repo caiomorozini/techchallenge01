@@ -1,22 +1,17 @@
+from http import HTTPStatus
 from fastapi import Depends, FastAPI
 from fastapi.responses import RedirectResponse
+from fastapi.security import OAuth2PasswordRequestForm
 from Util.Contantes import *
 from Util.RestAPI import *
 from sqlalchemy.orm import Session
-from sql import crud, models, schemas
-from sql.database import SessionLocal, engine
+from Util.Security import create_access_token, verify_password, oauth2_scheme
+from sql import models, schemas
+from sql.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Tech Challenge",)
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @app.get("/", include_in_schema=False)
 async def docs_redirect():
@@ -25,8 +20,8 @@ async def docs_redirect():
     """
     return RedirectResponse(url="/docs")
 
-@app.get("/Producao", tags=["Embrapa"])
-async def getProducao(ano: int | None = None, db: Session = Depends(get_db)):
+@app.get("/Embrapa/Producao", tags=["Embrapa"])
+async def getProducao(ano: int | None = None, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
     """
     Obtém dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
 
@@ -41,11 +36,11 @@ async def getProducao(ano: int | None = None, db: Session = Depends(get_db)):
         parametros = f"ano={ano}&"
     url = base_url + f"?{parametros}opcao={Opcoes.Producao.value}"
 
-    produtos = ExecutarGet(url, ano, "", Opcoes.Producao, db)
+    produtos = ConsultarDadosEmbrapa(url, ano, "", Opcoes.Producao, db)
     return(produtos)
 
-@app.get("/Processamento", tags=["Embrapa"])
-async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | None = None, db: Session = Depends(get_db)):
+@app.get("/Embrapa/Processamento", tags=["Embrapa"])
+async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | None = None, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
     """
     Obtém dados de quantidade de uvas processadas no Rio Grande do Sul.
 
@@ -69,12 +64,12 @@ async def getProcessamento(ano: int | None = None, subopcao: SubOpcoesProc | Non
 
     url = base_url + f"?{parametros}opcao={Opcoes.Processamento.value}"
 
-    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Processamento, db)
+    produtos = ConsultarDadosEmbrapa(url, ano, subopcaovalor, Opcoes.Processamento, db)
 
     return(produtos)
 
-@app.get("/Comercializacao", tags=["Embrapa"])
-async def getComercializacao(ano: int | None = None, db: Session = Depends(get_db)):
+@app.get("/Embrapa/Comercializacao", tags=["Embrapa"])
+async def getComercializacao(ano: int | None = None, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
     """
     Obtém dados de comercialização de vinhos e derivados no Rio Grande do Sul.
 
@@ -89,12 +84,12 @@ async def getComercializacao(ano: int | None = None, db: Session = Depends(get_d
         parametros = f"ano={ano}&"
     url = base_url + f"?{parametros}opcao={Opcoes.Comercializacao.value}"
 
-    produtos = ExecutarGet(url, ano, "", Opcoes.Comercializacao, db)
+    produtos = ConsultarDadosEmbrapa(url, ano, "", Opcoes.Comercializacao, db)
 
     return(produtos)
 
-@app.get("/Importacao", tags=["Embrapa"])
-async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None = None, db: Session = Depends(get_db)):
+@app.get("/Embrapa/Importacao", tags=["Embrapa"])
+async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None = None, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
     """
     Obtém dados de importação de derivados de uva.
 
@@ -118,12 +113,12 @@ async def getImportacao(ano: int | None = None, subopcao: SubOpcoesImport | None
 
     url = base_url + f"?{parametros}opcao={Opcoes.Importacao.value}"
 
-    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Importacao, db)
+    produtos = ConsultarDadosEmbrapa(url, ano, subopcaovalor, Opcoes.Importacao, db)
 
     return(produtos)
 
-@app.get("/Exportacao", tags=["Embrapa"])
-async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None = None, db: Session = Depends(get_db)):
+@app.get("/Embrapa/Exportacao", tags=["Embrapa"])
+async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None = None, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
     """
     Obtém dados de exportação de derivados de uva.
 
@@ -147,6 +142,41 @@ async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None
 
     url = base_url + f"?{parametros}opcao={Opcoes.Exportacao.value}"
 
-    produtos = ExecutarGet(url, ano, subopcaovalor, Opcoes.Exportacao, db)
+    produtos = ConsultarDadosEmbrapa(url, ano, subopcaovalor, Opcoes.Exportacao, db)
 
     return(produtos)
+
+
+@app.post('/users/', status_code=HTTPStatus.CREATED, response_model=schemas.UserPublic, tags=["Usuario"])
+def create_user(user: schemas.UserSchema, db: Session = Depends(get_db)):
+    usuario = CriarUsuario(user, db)
+    return usuario
+
+@app.delete('/users/{user_id}', tags=["Usuario"])
+def delete_user(user_id: int, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
+    ExcluirUsuario(user_id, db)
+    
+    return {'message': 'Usuário deletado'}
+
+@app.post('/token', response_model=schemas.Token)
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
+):
+    user = ConsultarDadosUsuario_Email(form_data.username, db)
+
+    if not user:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Usuário ou email inválidos',
+        )
+
+    if not verify_password(form_data.password, user.password):
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Usuário ou email inválidos',
+        )
+
+    access_token = create_access_token(data={'sub': user.email})
+
+    return {'access_token': access_token, 'token_type': 'bearer'}

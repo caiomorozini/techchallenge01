@@ -1,5 +1,8 @@
 from sqlalchemy.orm import Session
 from Util import Contantes
+from sqlalchemy import select
+
+from Util.Security import get_password_hash
 from . import models, schemas
 
 #=========================================================================================================================================================================
@@ -24,7 +27,7 @@ def insert_dados_producao(db: Session, lista_producao: list):
         lista_db_prod.append(db_producao)
     db.add_all(lista_db_prod)
     db.commit()
-    return
+    return lista_db_prod
 #=========================================================================================================================================================================
 #Processamento
 def check_processamento_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesProc) -> bool:
@@ -47,7 +50,7 @@ def insert_dados_processamento(db: Session, lista_processamento: list):
         lista_db_proc.append(db_processamento)
     db.add_all(lista_db_proc)
     db.commit()
-    return
+    return lista_db_proc
 #=========================================================================================================================================================================
 #Comercializacao
 def check_comercializacao_exists(db: Session, ano: int) -> bool:
@@ -70,7 +73,7 @@ def insert_dados_comercializacao(db: Session, lista_comercializacao: list):
         lista_db_come.append(db_comercializacao)
     db.add_all(lista_db_come)
     db.commit()
-    return
+    return lista_db_come
 #=========================================================================================================================================================================
 #Importacao
 def check_importacao_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesImport) -> bool:
@@ -93,7 +96,7 @@ def insert_dados_importacao(db: Session, lista_importacao: list):
         lista_db_imp.append(db_importacao)
     db.add_all(lista_db_imp)
     db.commit()
-    return
+    return lista_db_imp
 #=========================================================================================================================================================================
 #Exportacao
 def check_exportacao_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesExport) -> bool:
@@ -115,6 +118,42 @@ def insert_dados_exportacao(db: Session, lista_exportacao: list):
         db_exportacao = models.Exportacao(ano = dado.ano, subopcao = dado.subopcao, pais = dado.pais, quantidade = dado.quantidade, valor = dado.valor)
         lista_db_exp.append(db_exportacao)
     db.add_all(lista_db_exp)
+    db.commit()
+    return lista_db_exp
+#=========================================================================================================================================================================
+#USUARIOS
+#=========================================================================================================================================================================
+def get_dados_usuario(user:schemas.UserSchema, db: Session):
+    db_user = db.scalar(
+        select(models.User).where((models.User.username == user.username) | (models.User.email == user.email))
+        )
+    return(db_user)
+#=========================================================================================================================================================================
+def get_dados_usuario_userid(id:int, db: Session):
+    db_user = db.scalar(
+        select(models.User).where((models.User.id == id))
+        )
+    return(db_user)
+#=========================================================================================================================================================================
+def get_dados_usuario_email(email:str, db: Session):
+    db_user = db.scalar(
+        select(models.User).where((models.User.email == email))
+        )
+    return(db_user)
+#=========================================================================================================================================================================
+def insert_dados_usuario(user:schemas.UserSchema, db: Session):
+    hash_pass = get_password_hash(user.password)
+    db_user = models.User(
+        username=user.username, password=hash_pass, email=user.email
+    )
+
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return  db_user
+#=========================================================================================================================================================================
+def delete_dados_usuario(db_user:models.User, db: Session):
+    db.delete(db_user)
     db.commit()
     return
 #=========================================================================================================================================================================

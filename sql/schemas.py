@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class Producao(BaseModel):
     class Config:
@@ -19,3 +19,22 @@ class Importacao(BaseModel):
 class Exportacao(BaseModel):
     class Config:
         from_attributes = True
+
+class UserSchema(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+
+class UserPublic(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+    class Config:
+        from_attributes = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: str | None = None
