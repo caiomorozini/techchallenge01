@@ -148,21 +148,45 @@ async def getExportacao(ano: int | None = None, subopcao: SubOpcoesExport | None
 
 
 @app.post('/users/', status_code=HTTPStatus.CREATED, response_model=schemas.UserPublic, tags=["Usuario"])
-def create_user(user: schemas.UserSchema, db: Session = Depends(get_db)):
+async def create_user(user: schemas.UserSchema, db: Session = Depends(get_db)):
+    """
+    Cria um novo usuário.
+
+    - **user**: Esquema do usuário que será criado.
+    - **db**: Sessão do banco de dados.
+
+    Retorna o usuário criado.
+    """
     usuario = CriarUsuario(user, db)
     return usuario
 
 @app.delete('/users/{user_id}', tags=["Usuario"])
-def delete_user(user_id: int, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
+async def delete_user(user_id: int, db: Session = Depends(get_db), token = Depends(oauth2_scheme)):
+    """
+    Exclui um usuário existente.
+
+    - **user_id**: ID do usuário a ser excluído.
+    - **db**: Sessão do banco de dados.
+
+    Retorna uma mensagem de sucesso.
+    """
     ExcluirUsuario(user_id, db)
     
     return {'message': 'Usuário deletado'}
 
 @app.post('/token', response_model=schemas.Token)
-def login_for_access_token(
+async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
+    """
+    Faz login e retorna um token de acesso.
+
+    - **form_data**: Dados do formulário de login.
+    - **db**: Sessão do banco de dados.
+
+    Retorna o token de acesso.
+    """
     user = ConsultarDadosUsuario_Email(form_data.username, db)
 
     if not user:
