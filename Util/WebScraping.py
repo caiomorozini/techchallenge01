@@ -70,6 +70,7 @@ def ConsultarAno(soup):
 
 def ConsultarTabelaProdutos(soup, ano, subopcao, opcao):
     produtos = []
+    ant_tb_item = False
     table = soup.find("table", class_="tb_dados")
 
     # table --> tbody --> tr --> td
@@ -78,15 +79,37 @@ def ConsultarTabelaProdutos(soup, ano, subopcao, opcao):
         if len(row) == 0:
             continue
         if "tb_item" in row[0]["class"]:
+            if ant_tb_item:
+                if opcao is Opcoes.Producao:
+                    produtos.append(models.Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
+                elif opcao is Opcoes.Processamento:            
+                    produtos.append(models.Processamento(ano=ano, subopcao=subopcao, categoria=item, produto=subitem, quantidade=quantidade))
+                elif opcao is Opcoes.Comercializacao:                     
+                    produtos.append(models.Comercializacao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
             item = row[0].contents[0].strip()
+            subitem = ""
+            if row[1].contents[0].strip().replace(".", "") == "-" or row[1].contents[0].strip().replace(".", "") == "*" or row[1].contents[0].strip().replace(".", "") == "nd":
+                quantidade = 0
+            else:
+                quantidade = int(row[1].contents[0].strip().replace(".", ""))
+            ant_tb_item = True
             continue
-        if "tb_subitem" in row[0]["class"]:
+        elif "tb_subitem" in row[0]["class"]:
+            ant_tb_item = False
             subitem = row[0].contents[0].strip()
-            if row[1].contents[0].strip().replace(".", "") == "-":
+            if row[1].contents[0].strip().replace(".", "") == "-" or row[1].contents[0].strip().replace(".", "") == "*" or row[1].contents[0].strip().replace(".", "") == "nd":
                 quantidade = 0
             else:
                 quantidade = int(row[1].contents[0].strip().replace(".", ""))
 
+        if opcao is Opcoes.Producao:
+            produtos.append(models.Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
+        elif opcao is Opcoes.Processamento:            
+            produtos.append(models.Processamento(ano=ano, subopcao=subopcao, categoria=item, produto=subitem, quantidade=quantidade))
+        elif opcao is Opcoes.Comercializacao:                     
+            produtos.append(models.Comercializacao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
+
+    if ant_tb_item:
         if opcao is Opcoes.Producao:
             produtos.append(models.Producao(ano=ano, categoria=item, produto=subitem, quantidade=quantidade))
         elif opcao is Opcoes.Processamento:            

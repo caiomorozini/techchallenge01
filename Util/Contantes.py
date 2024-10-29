@@ -10,23 +10,23 @@ class Opcoes(str, Enum):
     Exportacao = "opt_06"
 
 class SubOpcoesProc(str, Enum):
-    Viniferas = "Viníferas"
-    AmericanasHibridas = "Americanas e híbridas"
-    UvasMesa = "Uvas de mesa"
-    SemClassificacao = "Sem classificação"
+    Viniferas = "Viniferas"
+    AmericanasHibridas = "AmericanasHibridas"
+    UvasMesa = "UvasMesa"
+    SemClassificacao = "SemClassificacao"
 
 class SubOpcoesImport(str, Enum):
-    VinhosMesa = "Vinhos de mesa"
+    VinhosMesa = "VinhosMesa"
     Espumantes = "Espumantes"
-    UvasFrescas = "Uvas frescas"
-    UvasPassas = "Uvas passas"
-    SucoUva = "Suco de uva"
+    UvasFrescas = "UvasFrescas"
+    UvasPassas = "UvasPassas"
+    SucoUva = "SucoUva"
 
 class SubOpcoesExport(str, Enum):
-    VinhosMesa = "Vinhos de mesa"
+    VinhosMesa = "VinhosMesa"
     Espumantes = "Espumantes"
-    UvasFrescas = "Uvas frescas"
-    SucoUva = "Suco de uva"
+    UvasFrescas = "UvasFrescas"
+    SucoUva = "SucoUva"
 
 def ConsultarSubOpcaoProcessamento(subopcao):
     if subopcao is SubOpcoesProc.Viniferas:

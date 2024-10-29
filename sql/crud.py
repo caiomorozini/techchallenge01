@@ -43,7 +43,7 @@ def get_dados_processamento(db: Session, ano: int, subopcao: Contantes.SubOpcoes
 def insert_dados_processamento(db: Session, lista_processamento: list):
     lista_db_proc = list()
     if len(lista_processamento) > 0:
-        db.query(models.Processamento).filter(models.Processamento.ano == lista_processamento[0].ano).delete()
+        db.query(models.Processamento).filter(models.Processamento.ano == lista_processamento[0].ano, models.Processamento.subopcao == lista_processamento[0].subopcao).delete()
         db.commit()
     for dado in lista_processamento:
         db_processamento = models.Processamento(ano = dado.ano, subopcao = dado.subopcao, categoria = dado.categoria, produto = dado.produto, quantidade = dado.quantidade)
@@ -89,7 +89,7 @@ def get_dados_importacao(db: Session, ano: int, subopcao: Contantes.SubOpcoesImp
 def insert_dados_importacao(db: Session, lista_importacao: list):
     lista_db_imp = list()
     if len(lista_importacao) > 0:
-        db.query(models.Importacao).filter(models.Importacao.ano == lista_importacao[0].ano).delete()
+        db.query(models.Importacao).filter(models.Importacao.ano == lista_importacao[0].ano, models.Importacao.subopcao == lista_importacao[0].subopcao).delete()
         db.commit()
     for dado in lista_importacao:
         db_importacao = models.Importacao(ano = dado.ano, subopcao = dado.subopcao, pais = dado.pais, quantidade = dado.quantidade, valor = dado.valor)
@@ -112,7 +112,7 @@ def get_dados_exportacao(db: Session, ano: int, subopcao: Contantes.SubOpcoesExp
 def insert_dados_exportacao(db: Session, lista_exportacao: list):
     lista_db_exp = list()
     if len(lista_exportacao) > 0:
-        db.query(models.Exportacao).filter(models.Exportacao.ano == lista_exportacao[0].ano).delete()
+        db.query(models.Exportacao).filter(models.Exportacao.ano == lista_exportacao[0].ano, models.Exportacao.subopcao == lista_exportacao[0].subopcao).delete()
         db.commit()
     for dado in lista_exportacao:
         db_exportacao = models.Exportacao(ano = dado.ano, subopcao = dado.subopcao, pais = dado.pais, quantidade = dado.quantidade, valor = dado.valor)
