@@ -153,7 +153,6 @@ async def create_user(user: schemas.UserSchema, db: Session = Depends(get_db)):
     Cria um novo usuário.
 
     - **user**: Esquema do usuário que será criado.
-    - **db**: Sessão do banco de dados.
 
     Retorna o usuário criado.
     """
@@ -166,7 +165,6 @@ async def delete_user(user_id: int, db: Session = Depends(get_db), token = Depen
     Exclui um usuário existente.
 
     - **user_id**: ID do usuário a ser excluído.
-    - **db**: Sessão do banco de dados.
 
     Retorna uma mensagem de sucesso.
     """
@@ -183,7 +181,6 @@ async def login_for_access_token(
     Faz login e retorna um token de acesso.
 
     - **form_data**: Dados do formulário de login.
-    - **db**: Sessão do banco de dados.
 
     Retorna o token de acesso.
     """
