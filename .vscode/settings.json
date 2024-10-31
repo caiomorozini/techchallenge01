@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/92e84978-cde4-4f9b-8666-7b6224651323/resourceGroups/tech_challenge/providers/Microsoft.Web/sites/techChallenge01",
+    "appService.deploySubpath": "."
+}
