@@ -6,10 +6,14 @@ from Util.Contantes import *
 from Util.RestAPI import *
 from sqlalchemy.orm import Session
 from Util.Security import create_access_token, verify_password, oauth2_scheme
-from sql import models, schemas
-from sql.database import engine, get_db
+from sql import schemas
+from sql.database import get_db, bindEngine
 
-models.Base.metadata.create_all(bind=engine)
+#Conecta ao banco de dados
+try:
+    bindEngine()
+except Exception as e:
+    print(f"Erro ao conectar ao banco de dados após {e} tentativas, tente novamente em alguns segundos.")
 
 app = FastAPI(title="Tech Challenge",)
 
