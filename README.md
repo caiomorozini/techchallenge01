@@ -4,7 +4,7 @@ Esta é uma API construída com FastAPI para obter dados de produção, processa
 
 ## Aplicação publicada
 
-A Aplicação foi publicada no Azure, é possível acessa-la em: [https://github.com/caiomorozini/techchallenge01] (https://github.com/caiomorozini/techchallenge01)
+A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techchallengeembrapa.azurewebsites.net/]
 
 ## Instalação
 
