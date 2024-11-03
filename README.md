@@ -2,11 +2,15 @@
 
 Esta é uma API construída com FastAPI para obter dados de produção, processamento, comercialização, importação e exportação de uvas no Rio Grande do Sul, além de gerenciar usuários.
 
+## Aplicação publicada
+
+A Aplicação foi publicada no Azure, é possível acessa-la em: [https://github.com/caiomorozini/techchallenge01] (https://github.com/caiomorozini/techchallenge01)
+
 ## Instalação
 
 1. Clone o repositório:
     ```sh
-    git clone https://seu-repositorio.git
+    git clone https://github.com/caiomorozini/techchallenge01
     cd seu-repositorio
     ```
 2. Crie e ative um ambiente virtual:
