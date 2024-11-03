@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 
 sql/connection_string.py
+.vscode/launch.json
