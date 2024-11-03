@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from .connection_string import con_str
+from sql.connection_string import con_str
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": con_str})
