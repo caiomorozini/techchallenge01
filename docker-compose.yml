@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  postgresql:
+    image: postgres:alpine
+    container_name: tc1-postgres
+    environment:
+      - POSTGRES_DB=tc1_dev
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - 5432:5432
+    volumes:
+      - tc1_psql:/var/lib/postgresql/data
+    networks:
+      - tc1-network
+
+networks:
+  tc1-network:
+    driver: bridge
+
+volumes:
+  tc1_psql:

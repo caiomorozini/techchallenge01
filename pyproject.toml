@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "techchallenge01"
+version = "0.1.0"
+description = ""
+authors = ["caiomorozini <caiomorozini@outlook.com.br>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.4"
+alembic = "^1.13.1"
+psycopg2-binary = "^2.9.9"
+databases = "^0.8.0"
+pydantic-settings = "^2.1.0"
+asyncpg = "^0.29.0"
+pandas = "^2.2.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+uvicorn = "^0.27.1"
+python-multipart = "^0.0.9"
+pydantic = {extras = ["email"], version = "^2.6.4"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
