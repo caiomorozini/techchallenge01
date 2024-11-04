@@ -40,22 +40,22 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
 - **GET /**: Redireciona para a documentação Swagger.
 - **GET /Embrapa/Producao**: Obtém dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
+    - `ano` : Filtra os dados pelo ano fornecido.
 - **GET /Embrapa/Processamento**: Obtém dados de quantidade de uvas processadas no Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de processamento fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de processamento fornecida.
 - **GET /Embrapa/Comercializacao**: Obtém dados de comercialização de vinhos e derivados no Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
+    - `ano` : Filtra os dados pelo ano fornecido.
 - **GET /Embrapa/Importacao**: Obtém dados de importação de derivados de uva.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de importação fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de importação fornecida.
 - **GET /Embrapa/Exportacao**: Obtém dados de exportação de derivados de uva.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de exportação fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de exportação fornecida.
 
 ### Usuário
 
