@@ -1,7 +1,9 @@
 # Tech Challenge API
 
 Esta é uma API construída com FastAPI para obter dados de produção, processamento, comercialização, importação e exportação de uvas no Rio Grande do Sul, além de gerenciar usuários.
-O arquivo connection_string.py se encontra dentro do word anexado no tech challenge
+
+## Conexão com o banco de dados
+O conteúdo do connection_string.py se encontra dentro do word anexado no tech challenge.
 
 ## Aplicação publicada
 
