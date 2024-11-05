@@ -4,7 +4,7 @@ Esta é uma API construída com FastAPI para obter dados de produção, processa
 
 ## Conexão com o banco de dados
 
-Para efetuar a conexão com o banco de dados é necessário criar o arquivo connection_string.py na pasta SQL, o seu conteúdo se encontra dentro do word anexado no tech challenge.
+
 
 ## Aplicação publicada
 
@@ -26,7 +26,7 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
     ```sh
     pip install -r requirements.txt
     ```
-4. Configure a string de conexão no arquivo `connection_string.py` com as credenciais do Azure SQL Server.
+4. Crie o arquivo `connection_string.py` na pasta sql, o seu conteúdo se encontra dentro do word anexado no tech challenge.
 
 ## Uso
 
