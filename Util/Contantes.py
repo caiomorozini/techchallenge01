@@ -1,6 +1,6 @@
 from enum import Enum
 
-base_url = "http://vitibrasil.cnpuv.embrapa.br/index.php123"
+base_url = "http://vitibrasil.cnpuv.embrapa.br/index.php"
 
 class Opcoes(str, Enum):
     Producao = "opt_02"
