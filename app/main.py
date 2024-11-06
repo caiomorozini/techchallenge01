@@ -29,11 +29,11 @@ async def getProducao(ano: int, db: Session = Depends(get_db), token = Depends(o
     """
     Obtém dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
 
-    Parâmetros de Query:
+    Parâmetros de Query:01 
     - ano : Filtra os dados pelo ano fornecido.
 
     Retorno:
-    - Dados da produção para o ano especificado ou os dados do ano mais recente se não for fornecido.
+    - Dados da produção para o ano especificado.
     """
     if not (1970 <= ano <= 2023): 
         raise HTTPException(status_code=400, detail="Ano deve estar entre 1970 e 2023")
@@ -55,7 +55,7 @@ async def getProcessamento(ano: int, subopcao: SubOpcoesProc, db: Session = Depe
     - subopcao : Filtra os dados pela subopção de processamento fornecida.
 
     Retorno:
-    - Dados do processamento para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    - Dados do processamento para o ano e subopção especificados.
     """
     if not (1970 <= ano <= 2023): 
         raise HTTPException(status_code=400, detail="Ano deve estar entre 1970 e 2023")
@@ -85,7 +85,7 @@ async def getComercializacao(ano: int, db: Session = Depends(get_db), token = De
     - ano : Filtra os dados pelo ano fornecido.
 
     Retorno:
-    - Dados da comercialização para o ano especificado ou os dados do ano mais recente se não for fornecido.
+    - Dados da comercialização para o ano especificado.
     """
     if not (1970 <= ano <= 2023): 
         raise HTTPException(status_code=400, detail="Ano deve estar entre 1970 e 2023")
@@ -108,7 +108,7 @@ async def getImportacao(ano: int, subopcao: SubOpcoesImport, db: Session = Depen
     - subopcao : Filtra os dados pela subopção de importação fornecida.
 
     Retorno:
-    - Dados da importação para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    - Dados da importação para o ano e subopção especificados.
     """
     if not (1970 <= ano <= 2023): 
         raise HTTPException(status_code=400, detail="Ano deve estar entre 1970 e 2023")
@@ -139,7 +139,7 @@ async def getExportacao(ano: int, subopcao: SubOpcoesExport, db: Session = Depen
     - subopcao : Filtra os dados pela subopção de exportação fornecida.
 
     Retorno:
-    - Dados da exportação para o ano e subopção especificados ou os dados do primeira ano e subopção disponíveis se não forem fornecidos.
+    - Dados da exportação para o ano e subopção especificados.
     """
     if not (1970 <= ano <= 2023): 
         raise HTTPException(status_code=400, detail="Ano deve estar entre 1970 e 2023")

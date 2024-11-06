@@ -22,7 +22,15 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
     ```sh
     pip install -r requirements.txt
     ```
-4. Crie o arquivo `connection_string.py` na pasta sql, o seu conteúdo se encontra dentro do word anexado no tech challenge.
+
+4. Instale o driver do SQL Server:
+
+    ```sh
+    pip install pyodbc
+    ```
+Siga as instruções para instalar o driver apropriado para o seu sistema operacional a partir da documentação do Microsoft SQL Server: https://learn.microsoft.com/pt-br/sql/connect/odbc/download-odbc-driver-for-sql-server.
+
+5. Crie o arquivo `connection_string.py` na pasta sql, o seu conteúdo se encontra dentro do word anexado no tech challenge.
 
 ## Uso
 
