@@ -3,7 +3,7 @@ from sqlalchemy.engine import URL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sql.connection_string import con_str
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
 
 connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": con_str})
 engine = create_engine(connection_url, use_setinputsizes = False, echo = False, fast_executemany = True, pool_pre_ping=True)
@@ -18,6 +18,6 @@ def get_db():
     finally:
         db.close()
 
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, max=60))
+@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, max=60),retry_error_cls=RetryError)
 def bindEngine():
     Base.metadata.create_all(bind=engine)

@@ -1,9 +1,9 @@
 import os
 
-server = os.environ.get('SQL_SERVER')  #"techchallengeserver.database.windows.net"
-database = os.environ.get('DATABASE') #"techchallengeDB"
-user = os.environ.get('USERDBTECH') #"admtech2"
-password = os.environ.get('PASSWORD_USERDBTECH')  #"jklhb$#8239"
+server = os.environ.get('SQL_SERVER')
+database = os.environ.get('DATABASE') 
+user = os.environ.get('USER') 
+password = os.environ.get('PASSWORD') 
 driver = "ODBC Driver 18 for SQL Server"
         
-con_str = f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={user};PWD={password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
+con_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={user};PWD={password};TrustServerCertificate=yes' #;Encrypt=yes;Connection Timeout=30'

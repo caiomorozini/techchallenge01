@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  web:
+    build: 
+      dockerfile: dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_started
+  db:
+    build:
+      context: .
+      dockerfile: ./sqlserver_docker/sqlserver.dockerfile
+    hostname: "techchallengeServer"
+    container_name: "sqlserver"
+    environment:
+      MSSQL_PID: "Standard"
+      ACCEPT_EULA: "Y"
+      MSSQL_AGENT_ENABLED: "true"
+      SA_PASSWORD: "jklhb#8239"
+      MSSQL_SERVER_NAME: "techchallengeServer"
+    ports:
+      - "1522:1433"
+      
