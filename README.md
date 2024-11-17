@@ -13,7 +13,7 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
     git clone https://github.com/caiomorozini/techchallenge01
     cd seu-repositorio
     ```
-2. Crie e ative um ambiente virtual(obs. caso vc queira usar o o ODBC do windows nao criei um venv):
+2. Crie e ative um ambiente virtual(obs. caso vc queira usar o ODBC do windows nao criei um venv, ppos criar um venv irá executar a aplicação como um image do docker):
     ```sh
     python -m venv venv
     source venv/bin/activate   # No Windows use `venv\Scripts\activate`
