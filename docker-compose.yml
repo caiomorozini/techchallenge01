@@ -1,0 +1,27 @@
+
+services:
+  web:
+    build: 
+      dockerfile: dockerfile
+    environment:
+      - SERVER=172.17.0.1
+      - USER=ta
+      - PASSWORD=jklhb#8239
+      - DATABASE=techchallengeDB
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_started
+  db:
+    build:
+      context: .
+      dockerfile: ./db_server_docker/postgres.dockerfile
+    hostname: "techchallengeServer"
+    environment:
+      - POSTGRES_USER=ta
+      - POSTGRES_PASSWORD=jklhb#8239
+      - POSTGRES_DB=techchallengeDB
+    ports:
+      - "5432:5432"
+      
