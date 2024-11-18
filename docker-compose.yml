@@ -1,9 +1,13 @@
-version: '3.4'
 
 services:
   web:
     build: 
       dockerfile: dockerfile
+    environment:
+      - SERVER=172.17.0.1
+      - USER=ta
+      - PASSWORD=jklhb#8239
+      - DATABASE=techchallengeDB
     ports:
       - "8000:8000"
     depends_on:
@@ -12,15 +16,12 @@ services:
   db:
     build:
       context: .
-      dockerfile: ./sqlserver_docker/sqlserver.dockerfile
+      dockerfile: ./db_server_docker/postgres.dockerfile
     hostname: "techchallengeServer"
-    container_name: "sqlserver"
     environment:
-      MSSQL_PID: "Standard"
-      ACCEPT_EULA: "Y"
-      MSSQL_AGENT_ENABLED: "true"
-      SA_PASSWORD: "jklhb#8239"
-      MSSQL_SERVER_NAME: "techchallengeServer"
+      - POSTGRES_USER=ta
+      - POSTGRES_PASSWORD=jklhb#8239
+      - POSTGRES_DB=techchallengeDB
     ports:
-      - "1522:1433"
+      - "5432:5432"
       

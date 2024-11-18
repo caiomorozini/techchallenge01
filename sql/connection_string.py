@@ -1,9 +1,10 @@
 import os
 
-server = os.environ.get('SQL_SERVER')
+server = os.environ.get('SERVER')
 database = os.environ.get('DATABASE') 
 user = os.environ.get('USER') 
-password = os.environ.get('PASSWORD') 
-driver = "ODBC Driver 18 for SQL Server"
+password = os.environ.get('PASSWORD')
+port="5432"
+
         
-con_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={user};PWD={password};TrustServerCertificate=yes' #;Encrypt=yes;Connection Timeout=30'
+con_str = f"postgresql+psycopg2://{user}:{password}@{server}:{port}/{database}"

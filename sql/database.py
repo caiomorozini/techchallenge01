@@ -5,8 +5,8 @@ from sqlalchemy.orm import sessionmaker
 from sql.connection_string import con_str
 from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
 
-connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": con_str})
-engine = create_engine(connection_url, use_setinputsizes = False, echo = False, fast_executemany = True, pool_pre_ping=True)
+# connection_url = URL.create("postgresql+psycopg2", query={"odbc_connect": con_str})
+engine = create_engine(con_str, echo = False, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

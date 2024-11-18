@@ -12,7 +12,7 @@ RUN mkdir -p -m 777 /usr/config
 WORKDIR /usr/config
 
 # Bundle config source
-COPY ./sqlserver_docker /usr/config
+COPY ./db_server_docker /usr/config
 
 # Grant permissions for to our scripts to be executable
 RUN chmod +x /usr/config/entrypoint.sh
