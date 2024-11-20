@@ -1,32 +1,38 @@
-version: 2
+# Exported from Render on 2024-11-20T14:58:49Z
+databases:
+- name: fiap_techchallenge_postgres
+  databaseName: techchallengedb
+  user: ta
+  plan: free
+  region: oregon
+  ipAllowList:
+  - source: 0.0.0.0/0
+    description: everywhere
+  postgresMajorVersion: "16"
 services:
-  web:
-    image: carloshspereira/fiaptech_chalenge_web:latest
-    resources:
-      cpu: 1000
-      memory: 1024
-    ports:
-      - "80"
-    environment:
-      - SERVER=172.17.0.1
-      - USER=ta
-      - PASSWORD=jklhb#8239
-      - DATABASE=techchallengeDB
-    depends_on:
-      db:
-        condition: service_started
-  db:
-    image: carloshspereira/fiaptech_chalenge_db:latest
-    environment:
-      - POSTGRES_USER=ta
-      - POSTGRES_PASSWORD=jklhb#8239
-      - POSTGRES_DB=techchallengeDB
-    ports:
-      - "5432:5432"
-    resources:
-      cpu: 500
-      memory: 512
-    volumes:
-      - db_data
-volumes:
-  db_data:
+- type: web
+  name: fiap_techchallenge
+  runtime: python
+  repo: https://github.com/carloshspereira/fiap_techchallenge
+  plan: free
+  envVars:
+  - key: SERVER
+    fromDatabase:
+      name: fiap_techchallenge_postgres
+      property: host
+  - key: PASSWORD
+    fromDatabase:
+      name: fiap_techchallenge_postgres
+      property: password
+  - key: DATABASE
+    fromDatabase:
+      name: fiap_techchallenge_postgres
+      property: techchallengedb
+  - key: USER
+    fromDatabase:
+      name: fiap_techchallenge_postgres
+      property: user
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: uvicorn app.main:app --host 0.0.0.0 --port 80
+version: "1"
