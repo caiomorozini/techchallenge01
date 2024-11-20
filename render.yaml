@@ -27,7 +27,7 @@ services:
   - key: DATABASE
     fromDatabase:
       name: fiap_techchallenge_postgres
-      property: techchallengedb
+      property: databaseName
   - key: USER
     fromDatabase:
       name: fiap_techchallenge_postgres
