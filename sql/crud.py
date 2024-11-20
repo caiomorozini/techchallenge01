@@ -15,7 +15,7 @@ def get_dados_producao(db: Session, ano: int):
     if check_producao_exists(db, ano):
         return db.query(models.Producao).filter(models.Producao.ano == ano).all()
     else:
-        raise Exception()
+        raise None
 
 def insert_dados_producao(db: Session, lista_producao: list):
     lista_db_prod = list()
@@ -32,13 +32,13 @@ def insert_dados_producao(db: Session, lista_producao: list):
 #Processamento
 def check_processamento_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesProc) -> bool:
     # Realiza a consulta para verificar se existe uma registro com o ano especificado
-    return db.query(models.Processamento).filter(models.Processamento.ano == ano, models.Processamento.subopcao == subopcao.value).first() is not None
+    return db.query(models.Processamento).filter(models.Processamento.ano == ano, models.Processamento.subopcao == Contantes.ConsultarSubOpcaoProcessamentoSQL(subopcao)).first() is not None
 
 def get_dados_processamento(db: Session, ano: int, subopcao: Contantes.SubOpcoesProc):
     if check_processamento_exists(db, ano, subopcao):
-        return db.query(models.Processamento).filter(models.Processamento.ano == ano, models.Processamento.subopcao == subopcao.value).all()
+        return db.query(models.Processamento).filter(models.Processamento.ano == ano, models.Processamento.subopcao == Contantes.ConsultarSubOpcaoProcessamentoSQL(subopcao)).all()
     else:
-        return Exception()
+        return None
 
 def insert_dados_processamento(db: Session, lista_processamento: list):
     lista_db_proc = list()
@@ -61,7 +61,7 @@ def get_dados_comercializacao(db: Session, ano: int):
     if check_comercializacao_exists(db, ano):
         return db.query(models.Comercializacao).filter(models.Comercializacao.ano == ano).all()
     else:
-        return Exception()
+        return None
 
 def insert_dados_comercializacao(db: Session, lista_comercializacao: list):
     lista_db_come = list()
@@ -78,13 +78,13 @@ def insert_dados_comercializacao(db: Session, lista_comercializacao: list):
 #Importacao
 def check_importacao_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesImport) -> bool:
     # Realiza a consulta para verificar se existe uma registro com o ano especificado
-    return db.query(models.Importacao).filter(models.Importacao.ano == ano, models.Importacao.subopcao == subopcao.value).first() is not None
+    return db.query(models.Importacao).filter(models.Importacao.ano == ano, models.Importacao.subopcao == Contantes.ConsultarSubOpcaoImportacaoSQL(subopcao)).first() is not None
 
 def get_dados_importacao(db: Session, ano: int, subopcao: Contantes.SubOpcoesImport):
     if check_importacao_exists(db, ano, subopcao):
-        return db.query(models.Importacao).filter(models.Importacao.ano == ano, models.Importacao.subopcao == subopcao.value).all()
+        return db.query(models.Importacao).filter(models.Importacao.ano == ano, models.Importacao.subopcao == Contantes.ConsultarSubOpcaoImportacaoSQL(subopcao)).all()
     else:
-        return Exception()
+        return None
 
 def insert_dados_importacao(db: Session, lista_importacao: list):
     lista_db_imp = list()
@@ -101,13 +101,13 @@ def insert_dados_importacao(db: Session, lista_importacao: list):
 #Exportacao
 def check_exportacao_exists(db: Session, ano: int, subopcao: Contantes.SubOpcoesExport) -> bool:
     # Realiza a consulta para verificar se existe uma registro com o ano especificado
-    return db.query(models.Exportacao).filter(models.Exportacao.ano == ano, models.Exportacao.subopcao == subopcao.value).first() is not None
+    return db.query(models.Exportacao).filter(models.Exportacao.ano == ano, models.Exportacao.subopcao == Contantes.ConsultarSubOpcaoExportacaoSQL(subopcao)).first() is not None
 
 def get_dados_exportacao(db: Session, ano: int, subopcao: Contantes.SubOpcoesExport):
     if check_exportacao_exists(db, ano, subopcao):
-        return db.query(models.Exportacao).filter(models.Exportacao.ano == ano, models.Exportacao.subopcao == subopcao.value).all()
+        return db.query(models.Exportacao).filter(models.Exportacao.ano == ano, models.Exportacao.subopcao == Contantes.ConsultarSubOpcaoExportacaoSQL(subopcao)).all()
     else:
-        return Exception()
+        return None
 
 def insert_dados_exportacao(db: Session, lista_exportacao: list):
     lista_db_exp = list()

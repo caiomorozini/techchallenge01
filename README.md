@@ -13,7 +13,7 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
     git clone https://github.com/caiomorozini/techchallenge01
     cd seu-repositorio
     ```
-2. Crie e ative um ambiente virtual:
+2. Crie e ative um ambiente virtual (caso vc queira usar o ODBC do windows nao crie um venv, ao criar um venv será necessário configurar o docker e executar a aplicação como uma imagem de linux):
     ```sh
     python -m venv venv
     source venv/bin/activate   # No Windows use `venv\Scripts\activate`
@@ -22,7 +22,15 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
     ```sh
     pip install -r requirements.txt
     ```
-4. Configure a string de conexão no arquivo `connection_string.py` com as credenciais do Azure SQL Server.
+
+4. Instale o driver do SQL Server:
+
+    ```sh
+    pip install pyodbc
+    ```
+Siga as instruções para instalar o driver apropriado para o seu sistema operacional a partir da documentação do Microsoft SQL Server: https://learn.microsoft.com/pt-br/sql/connect/odbc/download-odbc-driver-for-sql-server.
+
+5. Crie o arquivo `connection_string.py` na pasta sql, o seu conteúdo se encontra dentro do word anexado no tech challenge.
 
 ## Uso
 
@@ -39,22 +47,22 @@ A Aplicação foi publicada no Azure, é possível acessa-la em: [https://techch
 - **GET /**: Redireciona para a documentação Swagger.
 - **GET /Embrapa/Producao**: Obtém dados de produção de vinhos, sucos e derivados do Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
+    - `ano` : Filtra os dados pelo ano fornecido.
 - **GET /Embrapa/Processamento**: Obtém dados de quantidade de uvas processadas no Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de processamento fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de processamento fornecida.
 - **GET /Embrapa/Comercializacao**: Obtém dados de comercialização de vinhos e derivados no Rio Grande do Sul.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
+    - `ano` : Filtra os dados pelo ano fornecido.
 - **GET /Embrapa/Importacao**: Obtém dados de importação de derivados de uva.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de importação fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de importação fornecida.
 - **GET /Embrapa/Exportacao**: Obtém dados de exportação de derivados de uva.
   - Parâmetros:
-    - `ano` (opcional): Filtra os dados pelo ano fornecido.
-    - `subopcao` (opcional): Filtra os dados pela subopção de exportação fornecida.
+    - `ano` : Filtra os dados pelo ano fornecido.
+    - `subopcao` : Filtra os dados pela subopção de exportação fornecida.
 
 ### Usuário
 

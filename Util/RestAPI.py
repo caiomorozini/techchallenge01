@@ -10,7 +10,7 @@ from sql.schemas import UserSchema
 def ConsultarDadosEmbrapa(url:str, ano:int, subopcao:str, opcoes:Opcoes, db: requests.Session):
     consulta_html = True
     try:
-        page = requests.get(url)
+        page = requests.get(url, timeout= 10)
         try:
             produtos = WebScraping.ExtrairDados(page, opcoes)  
         except Exception as e:
